@@ -24,7 +24,7 @@ npx skills add sandlerz/skills --list
 
 | Skill | Description |
 |-------|-------------|
-| [git-flow](skills/git-flow/SKILL.md) | Git + GitHub workflow manager. Flags: `--save` / `-s` (add+commit+push), `--update` / `-u` (merge base branch + push), `--pr` (create PR with title, description and template support), `--update-pr` / `--upr` (rewrite PR description from branch commits), `--status` / `-st` (current state overview) |
+| [git-flow](skills/git-flow/SKILL.md) | Git + GitHub workflow: commit, push, update branch, and manage PRs |
 
 ## Compatible agents
 
