@@ -1,7 +1,7 @@
 ---
 name: git-flow
-description: "Manages git and GitHub workflow. Use when the user wants to commit, push, update their branch, create a PR, or do any git/GitHub operation. Handles: saving work (add+commit+push), updating branch from its base, creating PRs, and full workflows."
-argument-hint: "[save|update|pr|sync] [commit message]"
+description: "Manages git and GitHub workflow. Use when the user wants to commit, push, update their branch, create a PR, update a PR description, or do any git/GitHub operation. Handles: saving work (add+commit+push), updating branch from its base and pushing, creating PRs with title and description, updating PR descriptions."
+argument-hint: "[save|update|pr|update pr] [commit message]"
 allowed-tools: Bash
 ---
 
@@ -34,7 +34,7 @@ Detect what the user wants from `$ARGUMENTS` or their message. If unclear, ask.
 Steps:
 1. Run `git status` to show what will be staged
 2. Run `git add -A`
-3. If no commit message provided, show the diff summary and ask for one (suggest one based on the changes using conventional commit format)
+3. If no commit message provided, show the diff summary and suggest one based on the changes using conventional commit format
 4. Commit: `git commit -m "type: description"`
 5. Push: `git push` (if branch has no upstream yet: `git push -u origin HEAD`)
 6. Show the result
@@ -59,7 +59,11 @@ Steps:
    git merge origin/$BASE
    ```
 4. If conflicts arise, list them clearly and wait for the user to resolve before continuing.
-5. Show a summary: `git log --oneline origin/$BASE..HEAD`
+5. Once merged successfully, push:
+   ```bash
+   git push
+   ```
+6. Show a summary: `git log --oneline origin/$BASE..HEAD`
 
 ---
 
@@ -70,18 +74,40 @@ Steps:
 1. Check if branch has been pushed: `git status`
 2. If unpushed commits exist, push first: `git push` or `git push -u origin HEAD`
 3. Check if a PR already exists: `gh pr view 2>/dev/null`
-4. If no PR exists: `gh pr create` — use the last commit message as title suggestion, ask for description or use `--fill`
-5. If PR exists: show its URL and status with `gh pr view`
+4. **If PR already exists**: show its URL and status with `gh pr view` and stop.
+5. **If no PR exists**:
+   a. Build the title from the branch name or last commit message (conventional commit format)
+   b. Build the description:
+      - Get all commits in the branch: `git log --oneline origin/$BASE..HEAD`
+      - Check for a PR template: look for `.github/pull_request_template.md` or `.github/PULL_REQUEST_TEMPLATE.md`
+      - If a template exists, fill it using the branch changes as context
+      - If no template exists, write a concise description summarizing what changed and why
+   c. Create the PR:
+      ```bash
+      gh pr create --title "title here" --body "description here"
+      ```
+6. Show the PR URL
 
 ---
 
-### Scenario: sync
-**Trigger**: user says "sync", "sincronizar", "update and push".
+### Scenario: update pr
+**Trigger**: user says "update pr", "update pull request", "actualizar pr", "actualizar descripción del pr".
 
 Steps:
-1. Run the **update** scenario (merge from base branch)
-2. If update succeeded without conflicts, push: `git push`
-3. Show final status
+1. Verify a PR exists: `gh pr view 2>/dev/null`. If none, inform the user.
+2. Get the base branch: `gh pr view --json baseRefName -q .baseRefName`
+3. Get all commits in the branch: `git log --oneline origin/$BASE..HEAD`
+4. Get the current PR description: `gh pr view --json body -q .body`
+5. Check for a PR template: look for `.github/pull_request_template.md` or `.github/PULL_REQUEST_TEMPLATE.md`
+6. Rewrite the description using:
+   - The branch commits as source of truth for what changed
+   - The template structure if one exists
+   - The existing description as context (keep any manually added info that seems intentional)
+7. Update the PR:
+   ```bash
+   gh pr edit --body "updated description here"
+   ```
+8. Show the PR URL
 
 ---
 
