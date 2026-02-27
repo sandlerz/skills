@@ -5,13 +5,13 @@ My personal collection of [Agent Skills](https://agentskills.io) for Claude Code
 ## Install all skills
 
 ```bash
-npx skills add sandlerz/skills --all -g -a claude-code
+npx skills add sandlerz/skills --all
 ```
 
 ## Install a specific skill
 
 ```bash
-npx skills add sandlerz/skills --skill <skill-name> -g -a claude-code
+npx skills add sandlerz/skills --skill <skill-name>
 ```
 
 ## List available skills
