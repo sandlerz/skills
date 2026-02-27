@@ -24,7 +24,7 @@ npx skills add sandlerz/skills --list
 
 | Skill | Description |
 |-------|-------------|
-| *(coming soon)* | |
+| [git-flow](skills/git-flow/SKILL.md) | Git + GitHub workflow: save (add/commit/push), update branch, create PRs, sync |
 
 ## Compatible agents
 
