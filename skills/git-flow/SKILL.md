@@ -1,6 +1,6 @@
 ---
 name: git-flow
-description: Manages git and GitHub workflow. Use when the user wants to commit, push, update their branch, create a PR, or do any git/GitHub operation. Handles: saving work (add+commit+push), updating branch from its base, creating PRs, and full workflows.
+description: "Manages git and GitHub workflow. Use when the user wants to commit, push, update their branch, create a PR, or do any git/GitHub operation. Handles: saving work (add+commit+push), updating branch from its base, creating PRs, and full workflows."
 argument-hint: "[save|update|pr|sync] [commit message]"
 allowed-tools: Bash
 ---
