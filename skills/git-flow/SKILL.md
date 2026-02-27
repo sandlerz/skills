@@ -1,7 +1,7 @@
 ---
 name: git-flow
 description: "Manages git and GitHub workflow. Use when the user wants to commit, push, update their branch, create a PR, update a PR description, or do any git/GitHub operation. Handles: saving work (add+commit+push), updating branch from its base and pushing, creating PRs with title and description, updating PR descriptions."
-argument-hint: "[save|update|pr|update pr] [commit message]"
+argument-hint: "[--save|-s] [--update|-u] [--pr] [--update-pr|--upr] [--status|-st] [commit message]"
 allowed-tools: Bash
 ---
 
@@ -22,14 +22,27 @@ Valid types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `build
 
 ---
 
-## Scenarios
+## Flags
 
-Detect what the user wants from `$ARGUMENTS` or their message. If unclear, ask.
+Parse `$ARGUMENTS` to detect the flag. Each scenario maps to one or more flags:
+
+| Flag | Aliases | Scenario |
+|------|---------|----------|
+| `--save` | `-s` | save |
+| `--update` | `-u` | update |
+| `--pr` | | pr |
+| `--update-pr` | `--upr` | update pr |
+| `--status` | `-st` | status |
+
+If no flag is provided, infer intent from the message context or ask.
+
+Any text after the flag is treated as the commit message (for `--save`/`-s`).
 
 ---
 
 ### Scenario: save
-**Trigger**: user says "save", "commit", "guardar", "subir cambios", or provides a commit message.
+**Flag**: `--save` / `-s`
+**Trigger also when**: user says "save", "commit", "guardar", "subir cambios", or provides a commit message.
 
 Steps:
 1. Run `git status` to show what will be staged
@@ -42,7 +55,8 @@ Steps:
 ---
 
 ### Scenario: update
-**Trigger**: user says "update", "actualizar", "update branch", "traer cambios de main".
+**Flag**: `--update` / `-u`
+**Trigger also when**: user says "update", "actualizar", "update branch", "traer cambios de main".
 
 Steps:
 1. Detect the base branch:
@@ -68,7 +82,8 @@ Steps:
 ---
 
 ### Scenario: pr
-**Trigger**: user says "pr", "pull request", "abrir pr", "crear pr".
+**Flag**: `--pr`
+**Trigger also when**: user says "pr", "pull request", "abrir pr", "crear pr".
 
 Steps:
 1. Check if branch has been pushed: `git status`
@@ -91,7 +106,8 @@ Steps:
 ---
 
 ### Scenario: update pr
-**Trigger**: user says "update pr", "update pull request", "actualizar pr", "actualizar descripción del pr".
+**Flag**: `--update-pr` / `--upr`
+**Trigger also when**: user says "update pr", "update pull request", "actualizar pr", "actualizar descripción del pr".
 
 Steps:
 1. Verify a PR exists: `gh pr view 2>/dev/null`. If none, inform the user.
@@ -112,7 +128,8 @@ Steps:
 ---
 
 ### Scenario: status
-**Trigger**: user says "status", "estado", "qué tengo".
+**Flag**: `--status` / `-st`
+**Trigger also when**: user says "status", "estado", "qué tengo".
 
 Show:
 ```bash
