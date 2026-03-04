@@ -48,7 +48,10 @@ Steps:
 1. Run `git status` to show what will be staged
 2. Run `git add -A`
 3. If no commit message provided, show the diff summary and suggest one based on the changes using conventional commit format
-4. Commit: `git commit -m "type: description"`
+4. Commit with co-author trailer:
+   ```bash
+   git commit -m "type: description" -m "" -m "Co-authored-by: Claude Code <noreply@anthropic.com>"
+   ```
 5. Push: `git push` (if branch has no upstream yet: `git push -u origin HEAD`)
 6. Show the result
 
