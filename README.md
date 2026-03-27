@@ -26,6 +26,14 @@ npx skills add sandlerz/skills --list
 |-------|-------------|
 | [git-flow](skills/git-flow/SKILL.md) | Git + GitHub workflow: commit, push, update branch, and manage PRs |
 
+## Update skills
+
+Update all installed skills from this repo to the latest version:
+
+```bash
+npx skills update
+```
+
 ## Compatible agents
 
 These skills follow the open [Agent Skills specification](https://agentskills.io) and work with Claude Code, Codex, Cursor, and more.
