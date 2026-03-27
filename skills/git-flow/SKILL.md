@@ -19,6 +19,7 @@ type: description
 Valid types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `build`, `ci`, `perf`, `revert`
 
 **NEVER add a scope** — no `feat(something):`, only `feat:`.
+**NEVER add "Co-authored-by"** — no trailers or AI attribution of any kind. Use ONLY the conventional commit format.
 
 ---
 
@@ -48,9 +49,9 @@ Steps:
 1. Run `git status` to show what will be staged
 2. Run `git add -A`
 3. If no commit message provided, show the diff summary and suggest one based on the changes using conventional commit format
-4. Commit with co-author trailer:
+4. Commit:
    ```bash
-   git commit -m "type: description" -m "" -m "Co-authored-by: Claude Code <noreply@anthropic.com>"
+   git commit -m "type: description"
    ```
 5. Push: `git push` (if branch has no upstream yet: `git push -u origin HEAD`)
 6. Show the result
